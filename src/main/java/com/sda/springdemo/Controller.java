@@ -35,6 +35,29 @@ public String findUser(@RequestParam String imie)
         return imie+" "+nazwisko+" został dodany do bazy";
     }
 
+    @GetMapping("updateUser")
+    public String updateUser(@RequestParam String imie, @RequestParam String nazwisko,
+    @RequestParam(defaultValue = "brak") String noweimie, @RequestParam(defaultValue = "brak") String nowenazwisko) {
+
+        List<User> tempuser = new ArrayList<>();
+
+
+        for (User user: users) {
+
+            if (user.getImie().equals(imie) & user.getNazwisko().equals(nazwisko)) {
+                if (!noweimie.equals("brak")) user.setImie(noweimie);
+                if (!nowenazwisko.equals("brak")) user.setNazwisko(nowenazwisko);
+
+            }
+
+            tempuser.add(new User(user.getImie(), user.getNazwisko()));
+        }
+
+        users = tempuser;
+
+        return "Dane zostały zmienione";
+    }
+
 
 
 }
